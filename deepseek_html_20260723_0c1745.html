@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Interativo – Criminologia (UD I)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7fa;
+            color: #1e2a3a;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px 35px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        h1 {
+            font-size: 28px;
+            border-left: 6px solid #2c6e9c;
+            padding-left: 16px;
+            margin-bottom: 8px;
+            color: #0b2a3e;
+        }
+        .subtitle {
+            color: #3d5a73;
+            margin-bottom: 28px;
+            font-size: 16px;
+            padding-left: 22px;
+        }
+        .questao {
+            background: #f9fcff;
+            border-radius: 10px;
+            padding: 20px 22px;
+            margin-bottom: 22px;
+            border: 1px solid #e0e9f0;
+            transition: background 0.15s;
+        }
+        .questao.correta {
+            border-left: 5px solid #2b8c5e;
+            background: #f0faf5;
+        }
+        .questao.errada {
+            border-left: 5px solid #b13e3e;
+            background: #fdf2f2;
+        }
+        .questao .enunciado {
+            font-weight: 600;
+            font-size: 17px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .questao .enunciado .badge {
+            background: #2c6e9c;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0 12px;
+            border-radius: 30px;
+            height: 26px;
+            line-height: 26px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        .questao .opcoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px 28px;
+            margin-top: 6px;
+        }
+        .questao .opcoes label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .questao .opcoes input[type="radio"] {
+            transform: scale(1.1);
+            accent-color: #1f6390;
+            cursor: pointer;
+        }
+        .questao select {
+            font-size: 16px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #b8c9da;
+            background: #fff;
+            min-width: 180px;
+            cursor: pointer;
+        }
+        .questao .associacao-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 6px 0;
+            flex-wrap: wrap;
+        }
+        .questao .associacao-item span {
+            font-weight: 500;
+            min-width: 30px;
+        }
+        .questao .resposta-texto {
+            width: 100%;
+            min-height: 60px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #b8c9da;
+            font-family: inherit;
+            font-size: 15px;
+            margin-top: 4px;
+        }
+        .feedback {
+            margin-top: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 6px;
+            display: none;
+        }
+        .feedback.certo {
+            display: block;
+            background: #dff0e6;
+            color: #1b5e3a;
+        }
+        .feedback.errado {
+            display: block;
+            background: #fde8e8;
+            color: #8f2a2a;
+        }
+        .btn-verificar {
+            background: #1f6390;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 320px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn-verificar:hover {
+            background: #144a6e;
+        }
+        .btn-verificar:active {
+            transform: scale(0.97);
+        }
+        .resultado {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 20px;
+            padding: 16px;
+            background: #eaf0f6;
+            border-radius: 40px;
+        }
+        .discursiva textarea {
+            width: 100%;
+            min-height: 70px;
+            border: 1px solid #b8c9da;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 15px;
+            margin-top: 6px;
+            resize: vertical;
+        }
+        .discursiva .gabarito-discursivo {
+            background: #f0f4f9;
+            padding: 10px 16px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 15px;
+            border-left: 4px solid #2c6e9c;
+            display: none;
+        }
+        .rodape {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #5f738a;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 18px; }
+            .questao { padding: 16px; }
+            .questao .opcoes { gap: 8px 16px; }
+            .btn-verificar { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <h1>🧠 Simulado – Criminologia (UD I)</h1>
+    <div class="subtitle">Responda todas as questões e clique em <strong>“Verificar respostas”</strong> para ver seu desempenho.</div>
+
+    <!-- As questões serão injetadas aqui pelo JavaScript -->
+    <div id="questoes-container"></div>
+
+    <button class="btn-verificar" id="btnVerificar">✅ Verificar respostas</button>
+    <div class="resultado" id="resultado"></div>
+    <div class="rodape">Baseado no material UD I - Criminologia.pdf</div>
+</div>
+
+<script>
+    // ========== DADOS DO SIMULADO ==========
+    const questoes = [
+        // 1-5: V/F
+        {
+            id: 1,
+            tipo: 'vf',
+            enunciado: 'A criminologia é uma ciência empírica (baseada na observação da realidade) e interdisciplinar (integra direito, sociologia, psicologia, biologia, etc.).',
+            resposta: 'V'
+        },
+        {
+            id: 2,
+            tipo: 'vf',
+            enunciado: 'A criminologia é uma ciência normativa do “dever-ser”, pois define crimes e sanções.',
+            resposta: 'F'
+        },
+        {
+            id: 3,
+            tipo: 'vf',
+            enunciado: 'O Direito Penal é uma ciência normativa do “dever-ser”, voltada à definição de condutas e sanções.',
+            resposta: 'V'
+        },
+        {
+            id: 4,
+            tipo: 'vf',
+            enunciado: 'A política criminal é a estratégia estatal de resposta ao crime, selecionando meios de controle e prevenção.',
+            resposta: 'V'
+        },
+        {
+            id: 5,
+            tipo: 'vf',
+            enunciado: 'A criminologia impede a aplicação da lei penal, pois substitui o Direito Penal na resposta ao crime.',
+            resposta: 'F'
+        },
+        // 6-11: múltipla escolha
+        {
+            id: 6,
+            tipo: 'mc',
+            enunciado: 'Qual é o objeto de estudo da criminologia?',
+            opcoes: [
+                'Apenas o crime e o criminoso',
+                'Crime, criminoso, vítima e controle social',
+                'Somente as normas penais e as sanções',
+                'Exclusivamente a política criminal'
+            ],
+            resposta: 1 // índice zero-based
+        },
+        {
+            id: 7,
+            tipo: 'mc',
+            enunciado: 'O controle social informal é exercido por quais instâncias?',
+            opcoes: [
+                'Polícia, Ministério Público e Judiciário',
+                'Família, escola, religião, comunidade e redes de convivência',
+                'Sistema penitenciário e leis formais',
+                'Apenas pela mídia'
+            ],
+            resposta: 1
+        },
+        {
+            id: 8,
+            tipo: 'mc',
+            enunciado: 'De acordo com a Organização Mundial da Saúde, a violência pode ser dividida, segundo quem a pratica, em três grandes categorias. São elas:',
+            opcoes: [
+                'Física, psicológica e sexual',
+                'Primária, secundária e terciária',
+                'Autodirigida, interpessoal e coletiva',
+                'Formal, informal e institucional'
+            ],
+            resposta: 2
+        },
+        {
+            id: 9,
+            tipo: 'mc',
+            enunciado: 'Qual das seguintes áreas NÃO é uma ciência normativa, mas sim empírica e interdisciplinar?',
+            opcoes: [
+                'Direito Penal',
+                'Política Criminal',
+                'Criminologia',
+                'Direito Processual Penal'
+            ],
+            resposta: 2
+        },
+        {
+            id: 10,
+            tipo: 'mc',
+            enunciado: 'O sofrimento ou dano produzido pela resposta institucional ao crime (como o sistema de justiça) é classificado como vitimização:',
+            opcoes: [
+                'Primária',
+                'Secundária',
+                'Terciária',
+                'Quaternária'
+            ],
+            resposta: 1
+        },
+        {
+            id: 11,
+            tipo: 'mc',
+            enunciado: 'O medo ou a insegurança gerados pela exposição midiática ao crime correspondem à vitimização:',
+            opcoes: [
+                'Primária',
+                'Secundária',
+                'Terciária',
+                'Quaternária'
+            ],
+            resposta: 3
+        },
+        // 12-15: associação (usaremos selects)
+        {
+            id: 12,
+            tipo: 'assoc',
+            enunciado: 'Associe cada objeto da criminologia à sua definição:',
+            itens: [
+                { label: 'Delito/crime', opcoes: ['Mecanismos formais e informais...', 'Fenômeno social, comunitário e humano...', 'Pessoa atingida pelo fenômeno criminal...', 'Ser histórico, real e complexo...'], correta: 1 },
+                { label: 'Criminoso/delinquente', opcoes: ['Mecanismos formais e informais...', 'Fenômeno social, comunitário e humano...', 'Pessoa atingida pelo fenômeno criminal...', 'Ser histórico, real e complexo...'], correta: 3 },
+                { label: 'Vítima', opcoes: ['Mecanismos formais e informais...', 'Fenômeno social, comunitário e humano...', 'Pessoa atingida pelo fenômeno criminal...', 'Ser histórico, real e complexo...'], correta: 2 },
+                { label: 'Controle social', opcoes: ['Mecanismos formais e informais...', 'Fenômeno social, comunitário e humano...', 'Pessoa atingida pelo fenômeno criminal...', 'Ser histórico, real e complexo...'], correta: 0 }
+            ]
+        },
+        {
+            id: 13,
+            tipo: 'assoc',
+            enunciado: 'Associe os tipos de vitimização:',
+            itens: [
+                { label: 'Primária', opcoes: ['Medo/insegurança pela mídia', 'Dano direto causado pelo crime', 'Sofrimento pela resposta institucional', 'Estigmatização ou abandono social'], correta: 1 },
+                { label: 'Secundária', opcoes: ['Medo/insegurança pela mídia', 'Dano direto causado pelo crime', 'Sofrimento pela resposta institucional', 'Estigmatização ou abandono social'], correta: 2 },
+                { label: 'Terciária', opcoes: ['Medo/insegurança pela mídia', 'Dano direto causado pelo crime', 'Sofrimento pela resposta institucional', 'Estigmatização ou abandono social'], correta: 3 },
+                { label: 'Quaternária', opcoes: ['Medo/insegurança pela mídia', 'Dano direto causado pelo crime', 'Sofrimento pela resposta institucional', 'Estigmatização ou abandono social'], correta: 0 }
+            ]
+        },
+        {
+            id: 14,
+            tipo: 'assoc',
+            enunciado: 'Associe os tipos de controle social:',
+            itens: [
+                { label: 'Controle social informal', opcoes: ['Polícia, MP, Judiciário...', 'Família, escola, religião...'], correta: 1 },
+                { label: 'Controle social formal', opcoes: ['Polícia, MP, Judiciário...', 'Família, escola, religião...'], correta: 0 }
+            ]
+        },
+        {
+            id: 15,
+            tipo: 'assoc',
+            enunciado: 'Associe a natureza da violência:',
+            itens: [
+                { label: 'Física', opcoes: ['Dano emocional/mental', 'Ausência de cuidado', 'Uso direto de força', 'Violação sexual'], correta: 2 },
+                { label: 'Sexual', opcoes: ['Dano emocional/mental', 'Ausência de cuidado', 'Uso direto de força', 'Violação sexual'], correta: 3 },
+                { label: 'Psicológica', opcoes: ['Dano emocional/mental', 'Ausência de cuidado', 'Uso direto de força', 'Violação sexual'], correta: 0 },
+                { label: 'Privação/negligência', opcoes: ['Dano emocional/mental', 'Ausência de cuidado', 'Uso direto de força', 'Violação sexual'], correta: 1 }
+            ]
+        },
+        // 16-17: discursivas (não corrigidas automaticamente, mas exibimos gabarito)
+        {
+            id: 16,
+            tipo: 'discursiva',
+            enunciado: 'Enumere e explique os quatro objetos da criminologia (crime, criminoso, vítima e controle social), conforme abordado no material.',
+            gabarito: 'Crime: fenômeno social, comunitário e humano, analisado para além da definição legal, inserido em contexto social.\nCriminoso: ser histórico, real e complexo, sujeito a influências individuais, sociais e culturais.\nVítima: pessoa atingida pelo crime, considerada sujeito relevante da análise.\nControle social: mecanismos formais e informais que orientam comportamentos e reagem ao crime.'
+        },
+        {
+            id: 17,
+            tipo: 'discursiva',
+            enunciado: 'Cite três fatores sociais que contribuem para a criminalidade, listados no PDF.',
+            gabarito: 'Infância abandonada; Pobreza, desemprego e subemprego; Mídia e banalização da violência; Habitação precária e favelização; Migração e adaptação cultural; Crescimento urbano desordenado; Preconceito e discriminação; Educação como fator inibitório (este é um fator de proteção).'
+        }
+    ];
+
+    // ========== RENDERIZAÇÃO ==========
+    const container = document.getElementById('questoes-container');
+
+    function renderQuestoes() {
+        let html = '';
+        questoes.forEach((q, idx) => {
+            const num = idx + 1;
+            html += `<div class="questao" id="q-${q.id}">`;
+            html += `<div class="enunciado"><span class="badge">Q${num}</span> ${q.enunciado}</div>`;
+
+            if (q.tipo === 'vf') {
+                html += `<div class="opcoes">
+                            <label><input type="radio" name="vf_${q.id}" value="V"> Verdadeiro</label>
+                            <label><input type="radio" name="vf_${q.id}" value="F"> Falso</label>
+                        </div>`;
+            } else if (q.tipo === 'mc') {
+                html += `<div class="opcoes">`;
+                q.opcoes.forEach((op, i) => {
+                    html += `<label><input type="radio" name="mc_${q.id}" value="${i}"> ${op}</label>`;
+                });
+                html += `</div>`;
+            } else if (q.tipo === 'assoc') {
+                q.itens.forEach((item, i) => {
+                    const selectId = `assoc_${q.id}_${i}`;
+                    html += `<div class="associacao-item">
+                                <span>${item.label}:</span>
+                                <select id="${selectId}" data-correta="${item.correta}">
+                                    <option value="">Selecione...</option>`;
+                    item.opcoes.forEach((opt, j) => {
+                        html += `<option value="${j}">${opt}</option>`;
+                    });
+                    html += `</select>
+                            </div>`;
+                });
+            } else if (q.tipo === 'discursiva') {
+                html += `<div class="discursiva">
+                            <textarea id="disc_${q.id}" placeholder="Digite sua resposta aqui..."></textarea>
+                            <div class="gabarito-discursivo" id="gabarito_disc_${q.id}">
+                                <strong>📘 Gabarito de referência:</strong><br>${q.gabarito.replace(/\n/g, '<br>')}
+                            </div>
+                        </div>`;
+            }
+
+            html += `<div class="feedback" id="feedback-${q.id}"></div>`;
+            html += `</div>`;
+        });
+        container.innerHTML = html;
+    }
+    renderQuestoes();
+
+    // ========== CORREÇÃO ==========
+    document.getElementById('btnVerificar').addEventListener('click', function() {
+        let acertos = 0;
+        let total = 0;
+
+        // Percorre todas as questões
+        questoes.forEach(q => {
+            const feedback = document.getElementById(`feedback-${q.id}`);
+            const questaoDiv = document.getElementById(`q-${q.id}`);
+
+            // Remove classes anteriores
+            questaoDiv.classList.remove('correta', 'errada');
+            feedback.className = 'feedback';
+            feedback.style.display = 'none';
+
+            if (q.tipo === 'vf' || q.tipo === 'mc') {
+                const name = q.tipo === 'vf' ? `vf_${q.id}` : `mc_${q.id}`;
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                if (!selected) {
+                    feedback.textContent = '⚠️ Questão não respondida.';
+                    feedback.className = 'feedback errado';
+                    feedback.style.display = 'block';
+                    questaoDiv.classList.add('errada');
+                    return;
+                }
+                const valor = selected.value;
+                let correto = false;
+                if (q.tipo === 'vf') {
+                    correto = (valor === q.resposta);
+                } else { // mc
+                    correto = (parseInt(valor) === q.resposta);
+                }
+                total++;
+                if (correto) {
+                    acertos++;
+                    feedback.textContent = '✅ Correto!';
+                    feedback.className = 'feedback certo';
+                    questaoDiv.classList.add('correta');
+                } else {
+                    let msg = '❌ Incorreto. ';
+                    if (q.tipo === 'vf') msg += `Resposta correta: ${q.resposta}.`;
+                    else msg += `Resposta correta: ${q.opcoes[q.resposta]}.`;
+                    feedback.textContent = msg;
+                    feedback.className = 'feedback errado';
+                    questaoDiv.classList.add('errada');
+                }
+                feedback.style.display = 'block';
+
+            } else if (q.tipo === 'assoc') {
+                // Cada item é um select
+                let todosSelecionados = true;
+                let itensCorretos = 0;
+                const selects = questaoDiv.querySelectorAll('select');
+                selects.forEach(sel => {
+                    if (!sel.value) todosSelecionados = false;
+                    if (parseInt(sel.value) === parseInt(sel.dataset.correta)) itensCorretos++;
+                });
+                total++; // conta como uma questão
+                if (!todosSelecionados) {
+                    feedback.textContent = '⚠️ Preencha todas as associações.';
+                    feedback.className = 'feedback errado';
+                    feedback.style.display = 'block';
+                    questaoDiv.classList.add('errada');
+                    return;
+                }
+                const totalItens = selects.length;
+                if (itensCorretos === totalItens) {
+                    acertos++;
+                    feedback.textContent = '✅ Todas as associações corretas!';
+                    feedback.className = 'feedback certo';
+                    questaoDiv.classList.add('correta');
+                } else {
+                    feedback.textContent = `❌ ${itensCorretos} de ${totalItens} associações corretas.`;
+                    feedback.className = 'feedback errado';
+                    questaoDiv.classList.add('errada');
+                }
+                feedback.style.display = 'block';
+
+            } else if (q.tipo === 'discursiva') {
+                // Não contabiliza, apenas exibe gabarito
+                const gabDiv = document.getElementById(`gabarito_disc_${q.id}`);
+                if (gabDiv) {
+                    gabDiv.style.display = 'block';
+                }
+                // Não conta como certo/errado, mas marcamos como não avaliada
+                feedback.textContent = '📝 Questão discursiva – confira o gabarito de referência abaixo.';
+                feedback.className = 'feedback';
+                feedback.style.display = 'block';
+                questaoDiv.classList.add('correta'); // apenas visual
+            }
+        });
+
+        // Exibe resultado geral (apenas questões objetivas contam)
+        const totalObjetivas = questoes.filter(q => q.tipo !== 'discursiva').length;
+        // Mas como contamos total apenas para as que foram respondidas, podemos recalcular:
+        // Vamos contar quantas objetivas foram respondidas corretamente (já temos acertos e total)
+        // Mas acertos e total já foram incrementados apenas para as que tinham resposta.
+        // Vamos exibir a pontuação sobre o total de questões objetivas (não discursivas)
+        const objetivas = questoes.filter(q => q.tipo !== 'discursiva').length;
+        // Se algumas não foram respondidas, total pode ser menor que objetivas.
+        // Para o placar, consideramos o total de objetivas respondidas.
+        const respondeu = questoes.filter(q => q.tipo !== 'discursiva' && document.querySelector(`#q-${q.id} .feedback.certo, #q-${q.id} .feedback.errado`)).length;
+        // Mas o acertos já conta apenas as que estavam certas entre as respondidas.
+        // Vamos mostrar: Acertos / Total de objetivas
+        const exibicao = `${acertos} / ${objetivas}`;
+        document.getElementById('resultado').innerHTML = `🎯 Pontuação: ${exibicao} (objetivas)`;
+    });
+
+    // ========== INSTRUÇÃO PARA DISCURSIVAS ==========
+    // Já exibimos o gabarito ao clicar em verificar.
+</script>
+</body>
+</html>
