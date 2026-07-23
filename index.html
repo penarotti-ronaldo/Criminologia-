@@ -840,44 +840,49 @@
             explicacao: "Correto! A atuação policial deve ser sempre justificada por critérios objetivos e legais."
         });
 
-        // UD III - Múltipla (51-55)
+        // ==================== UD III - Múltipla (51-55) CORRIGIDAS ====================
+        // Questão 51: Poder Judiciário - Controla a legalidade, julga processos e acompanha a execução penal.
         questoesData.push({
             id: 51, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "Qual instituição é responsável por controlar a legalidade, julgar processos e acompanhar a execução penal?",
-            alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica"],
+            alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica", "Sistema prisional"],
             correta: 3,
             explicacao: "Correto! O Poder Judiciário controla a legalidade, julga e acompanha a execução penal."
         });
+        // Questão 52: Polícia Militar - Atua na polícia ostensiva, preservação da ordem pública, prevenção e resposta imediata.
         questoesData.push({
             id: 52, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "Qual instituição atua na polícia ostensiva, preservação da ordem pública, prevenção e resposta imediata?",
-            alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica"],
+            alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica", "Sistema prisional"],
             correta: 0,
             explicacao: "Correto! A Polícia Militar atua na polícia ostensiva e preservação da ordem pública."
         });
+        // Questão 53: Defesa técnica - Assegura contraditório, ampla defesa e controle da acusação.
         questoesData.push({
             id: 53, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "Qual instituição assegura contraditório, ampla defesa e controle da acusação?",
-            alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica"],
+            alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica", "Sistema prisional"],
             correta: 4,
             explicacao: "Correto! A defesa técnica garante o contraditório e a ampla defesa."
         });
+        // Questão 54: Sistema prisional - Executa a custódia, o cumprimento da pena e as medidas relacionadas à execução penal.
         questoesData.push({
             id: 54, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "Qual instituição executa a custódia, o cumprimento da pena e as medidas relacionadas à execução penal?",
-            alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Sistema prisional"],
-            correta: 4,
+            alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica", "Sistema prisional"],
+            correta: 5,
             explicacao: "Correto! O sistema prisional executa a custódia e o cumprimento da pena."
         });
+        // Questão 55: Ministério Público - Promove a ação penal pública e exerce controle externo da atividade policial.
         questoesData.push({
             id: 55, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "Qual instituição promove a ação penal pública e exerce controle externo da atividade policial?",
-            alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica"],
+            alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica", "Sistema prisional"],
             correta: 2,
             explicacao: "Correto! O Ministério Público promove a ação penal e controla externamente a polícia."
         });
 
-        // UD III - Match (56-58)
+        // UD III - Match (56-57)
         questoesData.push({
             id: 56, ud: "UD III", tipo: "match", tema: "Conceitos",
             pergunta: "Relacione os conceitos da coluna A com suas definições na coluna B:",
@@ -924,7 +929,7 @@
             fillRespostas: {}
         };
 
-        var letras = ["A", "B", "C", "D", "E"];
+        var letras = ["A", "B", "C", "D", "E", "F"];
 
         // ================================================================
         //  RENDERIZAR QUESTÕES
@@ -1205,7 +1210,6 @@
                 feedback.innerHTML = "❌ Algumas associações estão incorretas. Verifique novamente.";
             }
 
-            // Mostrar respostas corretas
             questao.matchPairs.forEach(function(pair, idx) {
                 var select = document.getElementById("match-select-" + questaoId + "-" + idx);
                 if (select) {
@@ -1223,7 +1227,6 @@
                 }
             });
 
-            // Mostrar explicação
             var explicacaoDiv = document.createElement("div");
             explicacaoDiv.className = "explicacao correta";
             explicacaoDiv.style.display = "block";
