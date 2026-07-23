@@ -222,7 +222,6 @@
             color: #dc3545;
         }
 
-        /* Match questions */
         .match-container {
             display: flex;
             flex-direction: column;
@@ -287,7 +286,6 @@
             border: 1px solid #dc3545;
         }
 
-        /* Fill in the blank */
         .fill-input {
             display: flex;
             flex-wrap: wrap;
@@ -410,35 +408,6 @@
             text-align: center;
         }
 
-        .essay-box {
-            margin: 8px 0;
-        }
-
-        .essay-box textarea {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #d0d7e6;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 14px;
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .essay-box textarea:focus {
-            outline: none;
-            border-color: #1a3c6e;
-        }
-
-        .essay-feedback {
-            margin-top: 8px;
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            background: #f0f4ff;
-            border-left: 4px solid #1a3c6e;
-        }
-
         @media (max-width: 600px) {
             .container {
                 padding: 15px;
@@ -474,7 +443,7 @@
     <div class="container">
 
         <h1>📋 SIMULADO COMPLETO - CRIMINOLOGIA</h1>
-        <p class="subtitle"><strong>UD I, UD II e UD III</strong> · Escolas, autores, política criminal, sistema de justiça e controle social</p>
+        <p class="subtitle"><strong>UD I, UD II e UD III</strong> · Todas as questões objetivas</p>
 
         <div class="info-bar">
             <span class="total-questoes">📝 Total de questões: <span id="totalQuestoes">0</span></span>
@@ -508,12 +477,12 @@
 
     <script>
         // ================================================================
-        //  TODAS AS QUESTÕES - UD I, UD II e UD III
+        //  TODAS AS QUESTÕES - UD I, UD II e UD III (sem discursivas)
         // ================================================================
         var questoesData = [];
 
         // ==================== UD I - Fundamentos ====================
-        // Questões 1-8: V/F
+        // V/F 1-8
         questoesData.push({
             id: 1, ud: "UD I", tema: "Conceitos",
             pergunta: "A criminologia é uma ciência empírica uma vez que baseia-se na observação da realidade, fatos, experiências, dados e fenômenos sociais e também interdisciplinar já que integra direito, sociologia, psicologia, biologia, medicina legal, estatística além de outras áreas.",
@@ -563,7 +532,7 @@
             explicacao: "Correto! A violência é classificada em autodirigida, interpessoal e coletiva conforme o agente."
         });
 
-        // UD I - Múltipla escolha (9-13)
+        // UD I - Múltipla (9-11)
         questoesData.push({
             id: 9, ud: "UD I", tema: "Áreas",
             pergunta: "Qual área tem como função estudar o crime como fenômeno social, buscando suas causas e características?",
@@ -585,349 +554,362 @@
             correta: 2,
             explicacao: "Correto! A política criminal orienta as estratégias do Estado para lidar com a criminalidade."
         });
+
+        // UD I - Match (12-15)
         questoesData.push({
-            id: 12, ud: "UD I", tema: "Vitimização",
-            pergunta: "O sofrimento produzido pela resposta institucional (polícia, judiciário) à vítima é chamado de:",
-            alternativas: ["Vitimização primária", "Vitimização secundária", "Vitimização terciária", "Vitimização quaternária", "Revitimização"],
-            correta: 1,
-            explicacao: "Correto! A vitimização secundária é o sofrimento causado pela resposta das instituições à vítima."
+            id: 12, ud: "UD I", tipo: "match", tema: "Objetos",
+            pergunta: "Relacione os objetos da criminologia com suas definições:",
+            matchPairs: [
+                { left: "Delito/crime", options: ["Fenômeno social, comunitário e humano.", "Ser histórico, real e complexo.", "Pessoa atingida pelo fenômeno criminal.", "Mecanismos que orientam comportamentos."], correct: 0 },
+                { left: "Criminoso/delinquente", options: ["Fenômeno social, comunitário e humano.", "Ser histórico, real e complexo.", "Pessoa atingida pelo fenômeno criminal.", "Mecanismos que orientam comportamentos."], correct: 1 },
+                { left: "Vítima", options: ["Fenômeno social, comunitário e humano.", "Ser histórico, real e complexo.", "Pessoa atingida pelo fenômeno criminal.", "Mecanismos que orientam comportamentos."], correct: 2 },
+                { left: "Controle social", options: ["Fenômeno social, comunitário e humano.", "Ser histórico, real e complexo.", "Pessoa atingida pelo fenômeno criminal.", "Mecanismos que orientam comportamentos."], correct: 3 }
+            ],
+            explicacao: "Correto! Crime: fenômeno social; Criminoso: ser complexo; Vítima: pessoa atingida; Controle social: mecanismos."
         });
         questoesData.push({
-            id: 13, ud: "UD I", tema: "Vitimização",
-            pergunta: "O medo ou insegurança produzidos pela exposição midiática à violência é chamado de:",
-            alternativas: ["Vitimização primária", "Vitimização secundária", "Vitimização terciária", "Vitimização quaternária", "Revitimização"],
-            correta: 3,
-            explicacao: "Correto! A vitimização quaternária é o medo/insegurança gerado pela exposição midiática à violência."
+            id: 13, ud: "UD I", tipo: "match", tema: "Vitimização",
+            pergunta: "Relacione os tipos de vitimização com suas definições:",
+            matchPairs: [
+                { left: "Primária", options: ["Dano direto causado pelo crime.", "Sofrimento pela resposta institucional.", "Estigmatização ou abandono social.", "Medo pela exposição midiática."], correct: 0 },
+                { left: "Secundária", options: ["Dano direto causado pelo crime.", "Sofrimento pela resposta institucional.", "Estigmatização ou abandono social.", "Medo pela exposição midiática."], correct: 1 },
+                { left: "Terciária", options: ["Dano direto causado pelo crime.", "Sofrimento pela resposta institucional.", "Estigmatização ou abandono social.", "Medo pela exposição midiática."], correct: 2 },
+                { left: "Quaternária", options: ["Dano direto causado pelo crime.", "Sofrimento pela resposta institucional.", "Estigmatização ou abandono social.", "Medo pela exposição midiática."], correct: 3 }
+            ],
+            explicacao: "Correto! Primária: dano direto; Secundária: resposta institucional; Terciária: estigmatização; Quaternária: medo midiático."
+        });
+        questoesData.push({
+            id: 14, ud: "UD I", tipo: "match", tema: "Controle Social",
+            pergunta: "Relacione os tipos de controle social com seus exemplos:",
+            matchPairs: [
+                { left: "Controle social informal", options: ["Família, escola, religião, comunidade.", "Polícia, MP, Judiciário, sistema prisional."], correct: 0 },
+                { left: "Controle social formal", options: ["Família, escola, religião, comunidade.", "Polícia, MP, Judiciário, sistema prisional."], correct: 1 }
+            ],
+            explicacao: "Correto! Informal: família, escola, comunidade. Formal: polícia, MP, Judiciário."
+        });
+        questoesData.push({
+            id: 15, ud: "UD I", tipo: "match", tema: "Violência",
+            pergunta: "Relacione a natureza da violência com sua definição:",
+            matchPairs: [
+                { left: "Física", options: ["Uso direto de força contra o corpo.", "Violação de natureza sexual.", "Dano emocional ou mental.", "Ausência de cuidado ou proteção."], correct: 0 },
+                { left: "Sexual", options: ["Uso direto de força contra o corpo.", "Violação de natureza sexual.", "Dano emocional ou mental.", "Ausência de cuidado ou proteção."], correct: 1 },
+                { left: "Psicológica", options: ["Uso direto de força contra o corpo.", "Violação de natureza sexual.", "Dano emocional ou mental.", "Ausência de cuidado ou proteção."], correct: 2 },
+                { left: "Privação/negligência", options: ["Uso direto de força contra o corpo.", "Violação de natureza sexual.", "Dano emocional ou mental.", "Ausência de cuidado ou proteção."], correct: 3 }
+            ],
+            explicacao: "Correto! Física: força; Sexual: violação; Psicológica: dano emocional; Privação: ausência de cuidado."
         });
 
         // ==================== UD II - Escolas ====================
-        // UD II - V/F (já existentes - 14-21)
+        // UD II - V/F (16-23)
         questoesData.push({
-            id: 14, ud: "UD II", tema: "Escola Clássica",
+            id: 16, ud: "UD II", tema: "Escola Clássica",
             pergunta: "A Escola Clássica surgiu como reação ao arbítrio penal, às penas cruéis e ao poder punitivo ilimitado do Estado.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! A Escola Clássica foi um movimento de reforma penal que contestava o arbítrio e as penas desumanas."
         });
         questoesData.push({
-            id: 15, ud: "UD II", tema: "Escola Clássica",
+            id: 17, ud: "UD II", tema: "Escola Clássica",
             pergunta: "Para a Escola Clássica, o crime era explicado principalmente por fatores biológicos e características físicas do criminoso.",
             alternativas: ["Verdadeiro", "Falso"], correta: 1, isVF: true,
             explicacao: "Incorreto. Essa ideia está ligada à Escola Positivista, especialmente a Lombroso."
         });
         questoesData.push({
-            id: 16, ud: "UD II", tema: "Escola Positivista",
+            id: 18, ud: "UD II", tema: "Escola Positivista",
             pergunta: "A Escola Positivista inaugurou o chamado paradigma etiológico, buscando explicar as causas da criminalidade.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! A Escola Positivista introduziu o paradigma etiológico, focando nas causas do crime."
         });
         questoesData.push({
-            id: 17, ud: "UD II", tema: "Lombroso",
+            id: 19, ud: "UD II", tema: "Lombroso",
             pergunta: "Cesare Lombroso é associado à antropologia criminal, ao criminoso nato, ao atavismo e ao método empírico.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! Lombroso é o principal nome da antropologia criminal."
         });
         questoesData.push({
-            id: 18, ud: "UD II", tema: "Ferri",
+            id: 20, ud: "UD II", tema: "Ferri",
             pergunta: "Enrico Ferri explicou o crime exclusivamente por fatores biológicos, sem considerar fatores sociais.",
             alternativas: ["Verdadeiro", "Falso"], correta: 1, isVF: true,
             explicacao: "Incorreto. Ferri ampliou a análise para fatores antropológicos, físicos e sociais."
         });
         questoesData.push({
-            id: 19, ud: "UD II", tema: "Garófalo",
+            id: 21, ud: "UD II", tema: "Garófalo",
             pergunta: "Raffaele Garófalo trabalhou ideias como delito natural, piedade, probidade, periculosidade e defesa social.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! Garófalo é conhecido por esses conceitos, especialmente o 'delito natural'."
         });
         questoesData.push({
-            id: 20, ud: "UD II", tema: "Terza Scuola",
+            id: 22, ud: "UD II", tema: "Terza Scuola",
             pergunta: "A Terza Scuola procurou conciliar elementos da Escola Clássica e da Escola Positivista.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! A Terza Scuola buscou conciliar o livre-arbítrio com o determinismo."
         });
         questoesData.push({
-            id: 21, ud: "UD II", tema: "Labelling Approach",
+            id: 23, ud: "UD II", tema: "Labelling Approach",
             pergunta: "O labelling approach entende que a criminalidade é uma qualidade natural da pessoa, independentemente da reação social.",
             alternativas: ["Verdadeiro", "Falso"], correta: 1, isVF: true,
             explicacao: "Incorreto. Para o labelling approach, a criminalidade resulta de processos de rotulação e estigmatização."
         });
 
-        // UD II - Múltipla escolha (22-28)
+        // UD II - Múltipla (24-27)
         questoesData.push({
-            id: 22, ud: "UD II", tema: "Escola Clássica",
+            id: 24, ud: "UD II", tema: "Escola Clássica",
             pergunta: "Para a Escola Clássica, o homem é visto como um ser racional, livre e capaz de escolha. Por isso, a responsabilidade penal se relaciona ao:",
             alternativas: ["Livre-arbítrio", "Determinismo biológico", "Condicionamento social", "Instinto criminoso", "Punição divina"],
             correta: 0,
             explicacao: "Correto! A Escola Clássica baseia-se no livre-arbítrio: o homem escolhe racionalmente."
         });
         questoesData.push({
-            id: 23, ud: "UD II", tema: "Escola Positivista",
+            id: 25, ud: "UD II", tema: "Escola Positivista",
             pergunta: "A Escola Positivista deslocou o foco do crime como ente jurídico para o estudo do:",
             alternativas: ["Criminoso/delinquente", "Código penal", "Contrato social", "Poder punitivo", "Processo legal"],
             correta: 0,
             explicacao: "Correto! A Escola Positivista focou no criminoso, buscando compreender o delinquente."
         });
         questoesData.push({
-            id: 24, ud: "UD II", tema: "Lombroso",
+            id: 26, ud: "UD II", tema: "Lombroso",
             pergunta: "Em qual autor a ideia de que certos indivíduos nasceriam predispostos ao crime ficou conhecida como teoria do criminoso nato?",
             alternativas: ["Lombroso", "Ferri", "Garófalo", "Beccaria", "Tarde"],
             correta: 0,
             explicacao: "Correto! Lombroso desenvolveu a teoria do criminoso nato."
         });
         questoesData.push({
-            id: 25, ud: "UD II", tema: "Ferri",
+            id: 27, ud: "UD II", tema: "Ferri",
             pergunta: "Para qual autor o crime deveria ser estudado a partir de fatores antropológicos, físicos e sociais?",
             alternativas: ["Lombroso", "Ferri", "Garófalo", "Beccaria", "Tarde"],
             correta: 1,
             explicacao: "Correto! Ferri propôs uma visão multifatorial."
         });
+
+        // UD II - Match (28-30)
         questoesData.push({
-            id: 26, ud: "UD II", tema: "Labelling",
-            pergunta: "Na teoria da reação social, o processo pelo qual alguém passa a ser tratado socialmente como criminoso é chamado de:",
-            alternativas: ["Rotulação/etiquetamento", "Punição formal", "Determinação biológica", "Castigo divino", "Correção social"],
-            correta: 0,
-            explicacao: "Correto! O labelling approach estuda o processo de rotulação."
+            id: 28, ud: "UD II", tipo: "match", tema: "Escolas",
+            pergunta: "Relacione cada escola à sua ideia central:",
+            matchPairs: [
+                { left: "Escola Clássica", options: ["Crime como escolha racional.", "Crime explicado por causas biológicas e sociais.", "Crime analisado no meio social.", "Seleção penal e estigmatização."], correct: 0 },
+                { left: "Escola Positivista", options: ["Crime como escolha racional.", "Crime explicado por causas biológicas e sociais.", "Crime analisado no meio social.", "Seleção penal e estigmatização."], correct: 1 },
+                { left: "Escola Sociológica", options: ["Crime como escolha racional.", "Crime explicado por causas biológicas e sociais.", "Crime analisado no meio social.", "Seleção penal e estigmatização."], correct: 2 },
+                { left: "Criminologia Crítica", options: ["Crime como escolha racional.", "Crime explicado por causas biológicas e sociais.", "Crime analisado no meio social.", "Seleção penal e estigmatização."], correct: 3 }
+            ],
+            explicacao: "Correto! Clássica: livre-arbítrio; Positivista: causas; Sociológica: meio social; Crítica: seleção penal."
         });
         questoesData.push({
-            id: 27, ud: "UD II", tema: "Escolas",
-            pergunta: "Qual escola entende que o crime deve ser analisado em relação ao meio social e às relações sociais?",
-            alternativas: ["Escola Clássica", "Escola Positivista", "Escola Sociológica", "Criminologia Crítica", "Labelling Approach"],
-            correta: 2,
-            explicacao: "Correto! A Escola Sociológica analisa o crime em relação ao meio social."
+            id: 29, ud: "UD II", tipo: "match", tema: "Autores",
+            pergunta: "Relacione os autores às suas contribuições:",
+            matchPairs: [
+                { left: "Beccaria", options: ["Crítica à tortura e crueldade penal.", "Antropologia criminal e estudo empírico.", "Delito natural, piedade e probidade.", "Crime como imitação."], correct: 0 },
+                { left: "Lombroso", options: ["Crítica à tortura e crueldade penal.", "Antropologia criminal e estudo empírico.", "Delito natural, piedade e probidade.", "Crime como imitação."], correct: 1 },
+                { left: "Garófalo", options: ["Crítica à tortura e crueldade penal.", "Antropologia criminal e estudo empírico.", "Delito natural, piedade e probidade.", "Crime como imitação."], correct: 2 },
+                { left: "Gabriel Tarde", options: ["Crítica à tortura e crueldade penal.", "Antropologia criminal e estudo empírico.", "Delito natural, piedade e probidade.", "Crime como imitação."], correct: 3 }
+            ],
+            explicacao: "Correto! Beccaria: crítica à tortura; Lombroso: antropologia; Garófalo: delito natural; Tarde: imitação."
         });
         questoesData.push({
-            id: 28, ud: "UD II", tema: "Autor",
-            pergunta: "Qual autor é conhecido pela ideia de que o crime é resultado de imitação?",
-            alternativas: ["Beccaria", "Lombroso", "Garófalo", "Gabriel Tarde", "Ferri"],
-            correta: 3,
-            explicacao: "Correto! Gabriel Tarde desenvolveu a teoria da imitação."
+            id: 30, ud: "UD II", tipo: "match", tema: "Tendências",
+            pergunta: "Relacione as tendências atuais da criminologia aos seus temas:",
+            matchPairs: [
+                { left: "Criminologia crítica", options: ["Seletividade penal e funcionamento do sistema.", "Mídia, medo social, consumo e identidade.", "Oportunidade, ambiente e prevenção situacional.", "Responsabilização, reparação e recomposição social."], correct: 0 },
+                { left: "Criminologia cultural", options: ["Seletividade penal e funcionamento do sistema.", "Mídia, medo social, consumo e identidade.", "Oportunidade, ambiente e prevenção situacional.", "Responsabilização, reparação e recomposição social."], correct: 1 },
+                { left: "Criminologia ambiental", options: ["Seletividade penal e funcionamento do sistema.", "Mídia, medo social, consumo e identidade.", "Oportunidade, ambiente e prevenção situacional.", "Responsabilização, reparação e recomposição social."], correct: 2 },
+                { left: "Justiça restaurativa", options: ["Seletividade penal e funcionamento do sistema.", "Mídia, medo social, consumo e identidade.", "Oportunidade, ambiente e prevenção situacional.", "Responsabilização, reparação e recomposição social."], correct: 3 }
+            ],
+            explicacao: "Correto! Crítica: seletividade; Cultural: mídia; Ambiental: oportunidade; Restaurativa: reparação."
+        });
+
+        // UD II - Fill (31-33)
+        questoesData.push({
+            id: 31, ud: "UD II", tipo: "fill", tema: "Escola Clássica",
+            pergunta: 'Para a Escola Clássica, o homem é visto como um ser racional, livre e capaz de escolha. Por isso, a responsabilidade penal se relaciona ao ( ________ ).',
+            respostaEsperada: "livre-arbítrio",
+            explicacao: "Correto! O livre-arbítrio é a base da responsabilidade penal na Escola Clássica."
+        });
+        questoesData.push({
+            id: 32, ud: "UD II", tipo: "fill", tema: "Escola Positivista",
+            pergunta: 'A Escola Positivista deslocou o foco do crime como ente jurídico para o estudo do ( ________ ).',
+            respostaEsperada: "criminoso",
+            explicacao: "Correto! A Escola Positivista focou no criminoso/delinquente."
+        });
+        questoesData.push({
+            id: 33, ud: "UD II", tipo: "fill", tema: "Lombroso",
+            pergunta: 'Em ( ________ ), a ideia de que certos indivíduos nasceriam predispostos ao crime ficou conhecida como teoria do criminoso nato.',
+            respostaEsperada: "lombroso",
+            explicacao: "Correto! Lombroso desenvolveu a teoria do criminoso nato."
         });
 
         // ==================== UD III - Política Criminal ====================
-        // UD III - V/F (29-45)
+        // UD III - V/F (34-50)
         questoesData.push({
-            id: 29, ud: "UD III", tema: "Política Criminal",
+            id: 34, ud: "UD III", tema: "Política Criminal",
             pergunta: "Política criminal pode ser compreendida como o conjunto de escolhas, diretrizes e estratégias adotadas pelo Estado para prevenir, controlar e responder à criminalidade.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! A política criminal envolve escolhas estratégicas do Estado."
         });
         questoesData.push({
-            id: 30, ud: "UD III", tema: "Política Criminal",
+            id: 35, ud: "UD III", tema: "Política Criminal",
             pergunta: "A política criminal se confunde com o Direito Penal, pois ambas têm exatamente a mesma função: definir crimes e penas.",
             alternativas: ["Verdadeiro", "Falso"], correta: 1, isVF: true,
             explicacao: "Incorreto. O Direito Penal define crimes e penas; a política criminal orienta estratégias."
         });
         questoesData.push({
-            id: 31, ud: "UD III", tema: "Política Criminal",
+            id: 36, ud: "UD III", tema: "Política Criminal",
             pergunta: "A criminologia estuda o crime como fenômeno real, enquanto a política criminal transforma esse conhecimento em decisões e estratégias públicas.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! A criminologia fornece o diagnóstico, e a política criminal traduz em ações."
         });
         questoesData.push({
-            id: 32, ud: "UD III", tema: "Política Criminal",
+            id: 37, ud: "UD III", tema: "Política Criminal",
             pergunta: "Uma política criminal eficiente deve se basear tão somente no clamor social e na sensação de insegurança da população.",
             alternativas: ["Verdadeiro", "Falso"], correta: 1, isVF: true,
             explicacao: "Incorreto. Deve considerar dados, diagnóstico, limites constitucionais e avaliação de resultados."
         });
         questoesData.push({
-            id: 33, ud: "UD III", tema: "Sistema de Justiça",
+            id: 38, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "O sistema de justiça criminal envolve apenas a Polícia Militar e o Poder Judiciário.",
             alternativas: ["Verdadeiro", "Falso"], correta: 1, isVF: true,
             explicacao: "Incorreto. Envolve polícias, MP, Judiciário, defesa técnica, execução penal e outras instituições."
         });
         questoesData.push({
-            id: 34, ud: "UD III", tema: "Sistema de Justiça",
+            id: 39, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "A atuação policial é uma das portas de entrada do sistema de justiça criminal, pois o registro, a preservação de provas e a legalidade da intervenção influenciam as fases posteriores.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! A atuação policial é fundamental para a legalidade e eficácia do sistema."
         });
         questoesData.push({
-            id: 35, ud: "UD III", tema: "Sistema de Justiça",
+            id: 40, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "O Ministério Público é responsável por promover a ação penal pública e também exerce controle externo da atividade policial.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! O MP tem a dupla função de promover a ação penal e controlar externamente a polícia."
         });
         questoesData.push({
-            id: 36, ud: "UD III", tema: "Sistema de Justiça",
+            id: 41, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "A defesa técnica é um obstáculo ao sistema penal, pois dificulta a punição dos autores de crime.",
             alternativas: ["Verdadeiro", "Falso"], correta: 1, isVF: true,
             explicacao: "Incorreto. A defesa técnica é garantia de legitimidade, contraditório, ampla defesa e devido processo legal."
         });
         questoesData.push({
-            id: 37, ud: "UD III", tema: "Controle Social",
+            id: 42, ud: "UD III", tema: "Controle Social",
             pergunta: "O controle social informal é exercido apenas pela polícia, pelo Ministério Público e pelo Judiciário.",
             alternativas: ["Verdadeiro", "Falso"], correta: 1, isVF: true,
             explicacao: "Incorreto. Esses são mecanismos formais. O controle informal ocorre por família, escola, comunidade, etc."
         });
         questoesData.push({
-            id: 38, ud: "UD III", tema: "Controle Social",
+            id: 43, ud: "UD III", tema: "Controle Social",
             pergunta: "Família, escola e comunidade podem atuar como mecanismos de controle social informal antes que o conflito chegue ao sistema penal.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! O controle informal atua preventivamente."
         });
         questoesData.push({
-            id: 39, ud: "UD III", tema: "Controle Social",
+            id: 44, ud: "UD III", tema: "Controle Social",
             pergunta: "O controle social formal é exercido por instituições oficiais, com competência legal, procedimento, registro e possibilidade de sanção.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! O controle formal é institucional e segue procedimentos legais."
         });
         questoesData.push({
-            id: 40, ud: "UD III", tema: "Controle Social",
+            id: 45, ud: "UD III", tema: "Controle Social",
             pergunta: "A polícia, o Ministério Público, o Judiciário, a defesa e o sistema prisional integram o controle social formal.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! Todas essas instituições fazem parte do controle social formal."
         });
         questoesData.push({
-            id: 41, ud: "UD III", tema: "Política Criminal",
+            id: 46, ud: "UD III", tema: "Política Criminal",
             pergunta: "A repressão penal é sempre ilegítima, ainda que esteja prevista em lei e seja necessária para proteger a sociedade.",
             alternativas: ["Verdadeiro", "Falso"], correta: 1, isVF: true,
             explicacao: "Incorreto. A repressão penal pode ser legítima quando legal, necessária, proporcional e controlável."
         });
         questoesData.push({
-            id: 42, ud: "UD III", tema: "Conceitos",
+            id: 47, ud: "UD III", tema: "Conceitos",
             pergunta: "Seletividade penal é o fenômeno pelo qual o sistema penal incide de forma mais intensa sobre determinados crimes, grupos, territórios ou pessoas.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! A seletividade penal é uma característica crítica do sistema de justiça."
         });
         questoesData.push({
-            id: 43, ud: "UD III", tema: "Conceitos",
+            id: 48, ud: "UD III", tema: "Conceitos",
             pergunta: "A cifra negra corresponde aos crimes que não chegam ao conhecimento oficial ou não são registrados pelo sistema penal.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! A cifra negra representa a diferença entre a criminalidade real e a registrada."
         });
         questoesData.push({
-            id: 44, ud: "UD III", tema: "Direitos Fundamentais",
+            id: 49, ud: "UD III", tema: "Direitos Fundamentais",
             pergunta: "Direitos fundamentais são obstáculos à segurança pública, pois impedem a atuação policial eficiente.",
             alternativas: ["Verdadeiro", "Falso"], correta: 1, isVF: true,
             explicacao: "Incorreto. Direitos fundamentais são limites que legitimam a atuação policial e protegem o cidadão."
         });
         questoesData.push({
-            id: 45, ud: "UD III", tema: "Atuação Policial",
+            id: 50, ud: "UD III", tema: "Atuação Policial",
             pergunta: "Uma abordagem, busca pessoal, prisão ou uso da força precisa ser explicável por critérios objetivos, legalidade, necessidade, proporcionalidade e registro técnico.",
             alternativas: ["Verdadeiro", "Falso"], correta: 0, isVF: true,
             explicacao: "Correto! A atuação policial deve ser sempre justificada por critérios objetivos e legais."
         });
 
-        // UD III - Múltipla escolha (46-50)
+        // UD III - Múltipla (51-55)
         questoesData.push({
-            id: 46, ud: "UD III", tema: "Sistema de Justiça",
+            id: 51, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "Qual instituição é responsável por controlar a legalidade, julgar processos e acompanhar a execução penal?",
             alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica"],
             correta: 3,
             explicacao: "Correto! O Poder Judiciário controla a legalidade, julga e acompanha a execução penal."
         });
         questoesData.push({
-            id: 47, ud: "UD III", tema: "Sistema de Justiça",
+            id: 52, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "Qual instituição atua na polícia ostensiva, preservação da ordem pública, prevenção e resposta imediata?",
             alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica"],
             correta: 0,
             explicacao: "Correto! A Polícia Militar atua na polícia ostensiva e preservação da ordem pública."
         });
         questoesData.push({
-            id: 48, ud: "UD III", tema: "Sistema de Justiça",
+            id: 53, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "Qual instituição assegura contraditório, ampla defesa e controle da acusação?",
             alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica"],
             correta: 4,
             explicacao: "Correto! A defesa técnica garante o contraditório e a ampla defesa."
         });
         questoesData.push({
-            id: 49, ud: "UD III", tema: "Sistema de Justiça",
+            id: 54, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "Qual instituição executa a custódia, o cumprimento da pena e as medidas relacionadas à execução penal?",
             alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Sistema prisional"],
             correta: 4,
             explicacao: "Correto! O sistema prisional executa a custódia e o cumprimento da pena."
         });
         questoesData.push({
-            id: 50, ud: "UD III", tema: "Sistema de Justiça",
+            id: 55, ud: "UD III", tema: "Sistema de Justiça",
             pergunta: "Qual instituição promove a ação penal pública e exerce controle externo da atividade policial?",
             alternativas: ["Polícia Militar", "Polícia Civil", "Ministério Público", "Poder Judiciário", "Defesa técnica"],
             correta: 2,
             explicacao: "Correto! O Ministério Público promove a ação penal e controla externamente a polícia."
         });
 
-        // ================================================================
-        //  QUESTÕES DE RELACIONAR (MATCH) - UD I, II e III
-        // ================================================================
-        // UD I - Relacionar áreas (questão 51)
+        // UD III - Match (56-58)
         questoesData.push({
-            id: 51, ud: "UD I", tipo: "match", tema: "Áreas",
-            pergunta: "Relacione cada área à sua função:",
+            id: 56, ud: "UD III", tipo: "match", tema: "Conceitos",
+            pergunta: "Relacione os conceitos da coluna A com suas definições na coluna B:",
             matchPairs: [
-                { left: "Criminologia", options: ["Estuda o crime como fenômeno real.", "Define crimes e penas.", "Orienta estratégias públicas."], correct: 0 },
-                { left: "Direito Penal", options: ["Estuda o crime como fenômeno real.", "Define crimes e penas.", "Orienta estratégias públicas."], correct: 1 },
-                { left: "Política Criminal", options: ["Estuda o crime como fenômeno real.", "Define crimes e penas.", "Orienta estratégias públicas."], correct: 2 }
+                { left: "Criminologia", options: ["Estuda o crime como fenômeno real.", "Define crimes, penas e medidas de segurança.", "Orienta estratégias públicas.", "Exercido por família, escola e comunidade.", "Exercido por instituições oficiais."], correct: 0 },
+                { left: "Direito Penal", options: ["Estuda o crime como fenômeno real.", "Define crimes, penas e medidas de segurança.", "Orienta estratégias públicas.", "Exercido por família, escola e comunidade.", "Exercido por instituições oficiais."], correct: 1 },
+                { left: "Política criminal", options: ["Estuda o crime como fenômeno real.", "Define crimes, penas e medidas de segurança.", "Orienta estratégias públicas.", "Exercido por família, escola e comunidade.", "Exercido por instituições oficiais."], correct: 2 },
+                { left: "Controle social informal", options: ["Estuda o crime como fenômeno real.", "Define crimes, penas e medidas de segurança.", "Orienta estratégias públicas.", "Exercido por família, escola e comunidade.", "Exercido por instituições oficiais."], correct: 3 },
+                { left: "Controle social formal", options: ["Estuda o crime como fenômeno real.", "Define crimes, penas e medidas de segurança.", "Orienta estratégias públicas.", "Exercido por família, escola e comunidade.", "Exercido por instituições oficiais."], correct: 4 }
             ],
-            explicacao: "Correto! Criminologia estuda o fenômeno; Direito Penal define normas; Política Criminal orienta estratégias."
+            explicacao: "Correto! Criminologia: estuda; Direito Penal: define; Política Criminal: orienta; Informal: família; Formal: instituições."
         });
-
-        // UD II - Relacionar escolas (questão 52)
         questoesData.push({
-            id: 52, ud: "UD II", tipo: "match", tema: "Escolas",
-            pergunta: "Relacione cada escola à sua ideia central:",
+            id: 57, ud: "UD III", tipo: "match", tema: "Sistema de Justiça",
+            pergunta: "Relacione os órgãos do sistema de justiça criminal com suas funções principais:",
             matchPairs: [
-                { left: "Escola Clássica", options: ["Crime como escolha racional.", "Crime explicado por causas biológicas e sociais.", "Crime analisado no meio social."], correct: 0 },
-                { left: "Escola Positivista", options: ["Crime como escolha racional.", "Crime explicado por causas biológicas e sociais.", "Crime analisado no meio social."], correct: 1 },
-                { left: "Escola Sociológica", options: ["Crime como escolha racional.", "Crime explicado por causas biológicas e sociais.", "Crime analisado no meio social."], correct: 2 }
+                { left: "Polícia Militar", options: ["Polícia ostensiva e ordem pública.", "Investigação criminal.", "Ação penal e controle externo.", "Julgar e executar penal.", "Contraditório e ampla defesa.", "Custódia e execução penal."], correct: 0 },
+                { left: "Polícia Civil", options: ["Polícia ostensiva e ordem pública.", "Investigação criminal.", "Ação penal e controle externo.", "Julgar e executar penal.", "Contraditório e ampla defesa.", "Custódia e execução penal."], correct: 1 },
+                { left: "Ministério Público", options: ["Polícia ostensiva e ordem pública.", "Investigação criminal.", "Ação penal e controle externo.", "Julgar e executar penal.", "Contraditório e ampla defesa.", "Custódia e execução penal."], correct: 2 },
+                { left: "Poder Judiciário", options: ["Polícia ostensiva e ordem pública.", "Investigação criminal.", "Ação penal e controle externo.", "Julgar e executar penal.", "Contraditório e ampla defesa.", "Custódia e execução penal."], correct: 3 },
+                { left: "Defesa técnica", options: ["Polícia ostensiva e ordem pública.", "Investigação criminal.", "Ação penal e controle externo.", "Julgar e executar penal.", "Contraditório e ampla defesa.", "Custódia e execução penal."], correct: 4 },
+                { left: "Sistema prisional", options: ["Polícia ostensiva e ordem pública.", "Investigação criminal.", "Ação penal e controle externo.", "Julgar e executar penal.", "Contraditório e ampla defesa.", "Custódia e execução penal."], correct: 5 }
             ],
-            explicacao: "Correto! Clássica: livre-arbítrio; Positivista: causas; Sociológica: meio social."
+            explicacao: "Correto! PM: ostensiva; PC: investigação; MP: ação penal; Judiciário: julgar; Defesa: contraditório; Prisional: custódia."
         });
 
-        // UD III - Relacionar órgãos (questão 53)
-        questoesData.push({
-            id: 53, ud: "UD III", tipo: "match", tema: "Sistema de Justiça",
-            pergunta: "Relacione cada órgão do sistema de justiça criminal com sua função principal:",
-            matchPairs: [
-                { left: "Polícia Militar", options: ["Polícia ostensiva e ordem pública.", "Investigação criminal.", "Ação penal e controle externo.", "Julgar e executar penal."], correct: 0 },
-                { left: "Polícia Civil", options: ["Polícia ostensiva e ordem pública.", "Investigação criminal.", "Ação penal e controle externo.", "Julgar e executar penal."], correct: 1 },
-                { left: "Ministério Público", options: ["Polícia ostensiva e ordem pública.", "Investigação criminal.", "Ação penal e controle externo.", "Julgar e executar penal."], correct: 2 },
-                { left: "Poder Judiciário", options: ["Polícia ostensiva e ordem pública.", "Investigação criminal.", "Ação penal e controle externo.", "Julgar e executar penal."], correct: 3 }
-            ],
-            explicacao: "Correto! PM: ostensiva; PC: investigação; MP: ação penal; Judiciário: julgar."
-        });
-
-        // ================================================================
-        //  QUESTÕES DE COMPLETAR (FILL) - UD I, II e III
-        // ================================================================
-        // UD II - Completar (questões 54-57)
-        questoesData.push({
-            id: 54, ud: "UD II", tipo: "fill", tema: "Escola Clássica",
-            pergunta: 'Para a Escola Clássica, o homem é visto como um ser racional, livre e capaz de escolha. Por isso, a responsabilidade penal se relaciona ao ( ________ ).',
-            respostaEsperada: "livre-arbítrio",
-            explicacao: "Correto! O livre-arbítrio é a base da responsabilidade penal na Escola Clássica."
-        });
-        questoesData.push({
-            id: 55, ud: "UD II", tipo: "fill", tema: "Escola Positivista",
-            pergunta: 'A Escola Positivista deslocou o foco do crime como ente jurídico para o estudo do ( ________ ).',
-            respostaEsperada: "criminoso",
-            explicacao: "Correto! A Escola Positivista focou no criminoso/delinquente."
-        });
-        questoesData.push({
-            id: 56, ud: "UD II", tipo: "fill", tema: "Lombroso",
-            pergunta: 'Em ( ________ ), a ideia de que certos indivíduos nasceriam predispostos ao crime ficou conhecida como teoria do criminoso nato.',
-            respostaEsperada: "lombroso",
-            explicacao: "Correto! Lombroso desenvolveu a teoria do criminoso nato."
-        });
-        questoesData.push({
-            id: 57, ud: "UD II", tipo: "fill", tema: "Ferri",
-            pergunta: 'Para ( ________ ), o crime deveria ser estudado a partir de fatores antropológicos, físicos e sociais.',
-            respostaEsperada: "ferri",
-            explicacao: "Correto! Ferri propôs uma visão multifatorial."
-        });
-
-        // UD III - Completar (questão 58)
+        // UD III - Fill (58)
         questoesData.push({
             id: 58, ud: "UD III", tipo: "fill", tema: "Política Criminal",
             pergunta: 'A política criminal deve ser compreendida como o elo entre a ( ________ ), que estuda o fenômeno criminal, e o ( ________ ), que define crimes e penas.',
             respostaEsperada: "criminologia;direito penal",
             explicacao: "Correto! A política criminal é o elo entre a criminologia e o Direito Penal."
-        });
-
-        // ================================================================
-        //  QUESTÃO DISSERTATIVA (UD II - questão 59)
-        // ================================================================
-        questoesData.push({
-            id: 59, ud: "UD II", tipo: "essay", tema: "Formação Policial",
-            pergunta: "Explique, com suas palavras, qual é a importância de estudar as escolas criminológicas na formação policial.",
-            explicacao: "Resposta subjetiva. O estudo das escolas criminológicas ajuda o policial a compreender que o crime pode ser analisado por diferentes perspectivas, como a escolha individual, as causas sociais, a influência do meio, a reação social e o funcionamento do sistema penal. Esse conhecimento contribui para uma atuação mais técnica, crítica, legal e adequada à realidade da segurança pública."
         });
 
         // ================================================================
@@ -965,7 +947,6 @@
                 if (questao.isVF) badges.push('<span class="badge badge-vf">V/F</span>');
                 else if (questao.tipo === 'match') badges.push('<span class="badge badge-match">Relacione</span>');
                 else if (questao.tipo === 'fill') badges.push('<span class="badge badge-fill">Complete</span>');
-                else if (questao.tipo === 'essay') badges.push('<span class="badge badge-me">Dissertativa</span>');
                 else badges.push('<span class="badge badge-me">Múltipla</span>');
 
                 var pergunta = document.createElement("div");
@@ -976,7 +957,6 @@
                 divQuestao.appendChild(pergunta);
 
                 if (questao.tipo === 'match') {
-                    // Renderiza match
                     var matchContainer = document.createElement("div");
                     matchContainer.className = "match-container";
                     matchContainer.id = "match-" + questao.id;
@@ -1029,7 +1009,6 @@
                     divQuestao.appendChild(feedback);
 
                 } else if (questao.tipo === 'fill') {
-                    // Renderiza fill
                     var fillDiv = document.createElement("div");
                     fillDiv.className = "fill-input";
 
@@ -1056,36 +1035,7 @@
                     feedback.id = "fill-feedback-" + questao.id;
                     divQuestao.appendChild(feedback);
 
-                } else if (questao.tipo === 'essay') {
-                    // Renderiza dissertativa
-                    var essayDiv = document.createElement("div");
-                    essayDiv.className = "essay-box";
-
-                    var textarea = document.createElement("textarea");
-                    textarea.id = "essay-" + questao.id;
-                    textarea.placeholder = "Escreva sua resposta aqui...";
-                    textarea.dataset.questaoId = questao.id;
-
-                    if (estado.fillRespostas[questao.id]) {
-                        textarea.value = estado.fillRespostas[questao.id];
-                    }
-
-                    textarea.addEventListener("input", function(e) {
-                        var qId = parseInt(this.dataset.questaoId);
-                        estado.fillRespostas[qId] = this.value;
-                    });
-
-                    essayDiv.appendChild(textarea);
-                    divQuestao.appendChild(essayDiv);
-
-                    var feedback = document.createElement("div");
-                    feedback.className = "essay-feedback";
-                    feedback.id = "essay-feedback-" + questao.id;
-                    feedback.innerHTML = "📝 <strong>Resposta subjetiva</strong> — confira com seu material.";
-                    divQuestao.appendChild(feedback);
-
                 } else {
-                    // Renderiza alternativas (V/F ou Múltipla)
                     var divAlt = document.createElement("div");
                     divAlt.className = "alternativas";
 
@@ -1157,7 +1107,7 @@
                 }
             }
             
-            if (!questao || questao.tipo === 'match' || questao.tipo === 'fill' || questao.tipo === 'essay') return;
+            if (!questao || questao.tipo === 'match' || questao.tipo === 'fill') return;
 
             var isCorreta = (indiceSelecionado === questao.correta);
 
@@ -1261,7 +1211,6 @@
                 if (select) {
                     var correctOption = pair.correct;
                     select.value = correctOption;
-                    // Destacar visualmente
                     if (select.parentElement) {
                         if (parseInt(select.value) === correctOption) {
                             select.style.borderColor = "#28a745";
@@ -1315,11 +1264,9 @@
             var esperado = questao.respostaEsperada.toLowerCase();
             var isCorreta = false;
 
-            // Verifica se a resposta contém a esperada ou é similar
             if (resposta.includes(esperado) || esperado.includes(resposta)) {
                 isCorreta = true;
             }
-            // Para respostas com múltiplas palavras separadas por ;
             if (esperado.includes(';')) {
                 var partes = esperado.split(';');
                 for (var p = 0; p < partes.length; p++) {
@@ -1351,7 +1298,6 @@
                 feedback.innerHTML = "❌ Incorreto. Resposta esperada: " + questao.respostaEsperada;
             }
 
-            // Mostrar explicação
             var explicacaoDiv = document.createElement("div");
             explicacaoDiv.className = "explicacao " + (isCorreta ? "correta" : "errada");
             explicacaoDiv.style.display = "block";
@@ -1374,27 +1320,18 @@
         //  CORRIGIR TUDO
         // ================================================================
         function corrigirTudo() {
-            // Corrigir V/F e Múltipla
             for (var q = 0; q < questoesData.length; q++) {
                 var questao = questoesData[q];
                 if (questao.tipo === 'match') {
                     corrigirMatch(questao.id);
                 } else if (questao.tipo === 'fill') {
                     corrigirFill(questao.id);
-                } else if (questao.tipo === 'essay') {
-                    // Não corrige automaticamente
                 } else {
-                    // V/F ou Múltipla - verifica se já foi respondida
                     if (!estado.bloqueadas[questao.id]) {
-                        // Encontra a alternativa selecionada
-                        var selected = document.querySelector('#questao-' + questao.id + ' .alternativa.selecionada');
-                        if (!selected) {
-                            var alt = document.querySelector('#questao-' + questao.id + ' .alternativa');
-                            if (alt) {
-                                // Força clique na primeira alternativa
-                                var indice = parseInt(alt.dataset.indice);
-                                responderQuestao(questao.id, indice);
-                            }
+                        var alt = document.querySelector('#questao-' + questao.id + ' .alternativa');
+                        if (alt) {
+                            var indice = parseInt(alt.dataset.indice);
+                            responderQuestao(questao.id, indice);
                         }
                     }
                 }
