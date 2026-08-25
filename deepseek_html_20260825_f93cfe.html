@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulado – Defesa Civil (20 questões)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #eef2f7;
+            padding: 25px 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #simulado {
+            max-width: 1000px;
+            width: 100%;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            padding: 30px 25px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0b1a33;
+            border-bottom: 3px solid #1a2a4a;
+            padding-bottom: 12px;
+            margin-bottom: 8px;
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        h1 small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #4a5a7a;
+            background: #e9ecf3;
+            padding: 4px 16px;
+            border-radius: 30px;
+        }
+
+        .sub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: #e9ecf3;
+            padding: 10px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            color: #1a2a4a;
+            gap: 10px;
+        }
+
+        .sub-header .stats {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .sub-header .stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-reset-global {
+            background: #8a1c3a;
+            color: white;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .btn-reset-global:hover {
+            background: #b0244e;
+        }
+
+        .questao-item {
+            background: #f8faff;
+            border-left: 5px solid #1a2a4a;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            transition: border-color 0.2s;
+        }
+
+        .questao-item.correta {
+            border-left-color: #0d7a3e;
+        }
+
+        .questao-item.incorreta {
+            border-left-color: #b22234;
+        }
+
+        .questao-tipo {
+            display: inline-block;
+            background: #1a2a4a;
+            color: #fff;
+            font-size: 0.65rem;
+            padding: 2px 14px;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-weight: 700;
+            vertical-align: middle;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .enunciado {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #0b1a33;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .enunciado .num {
+            font-weight: 700;
+            color: #1a2a4a;
+        }
+
+        .opcoes {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-left: 8px;
+            margin-bottom: 14px;
+        }
+
+        .opcao {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #ffffff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #dde1e9;
+            transition: background 0.15s, border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .opcao:hover:not(.disabled) {
+            background: #f0f4fe;
+        }
+
+        .opcao input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1a2a4a;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .opcao label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.98rem;
+            color: #1e2b3e;
+            line-height: 1.4;
+        }
+
+        .opcao .letra {
+            font-weight: 700;
+            color: #1a2a4a;
+            min-width: 22px;
+        }
+
+        .opcao.selecionada-errada {
+            background: #ffe6e6;
+            border-color: #b22234;
+        }
+
+        .opcao.selecionada-certa {
+            background: #e2f3e2;
+            border-color: #0d7a3e;
+        }
+
+        .opcao.resposta-correta {
+            background: #d4edda;
+            border-color: #0d7a3e;
+        }
+
+        .opcao.resposta-correta label {
+            font-weight: 600;
+        }
+
+        .opcao.resposta-errada {
+            background: #f8d7da;
+            border-color: #b22234;
+        }
+
+        .opcao.disabled {
+            opacity: 0.85;
+        }
+
+        .opcao.disabled:hover {
+            background: inherit;
+        }
+
+        .botoes-verificar {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        .btn-verificar {
+            background: #1a2a4a;
+            color: white;
+            border: none;
+            padding: 7px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-verificar:hover:not(:disabled) {
+            background: #2f4a7a;
+        }
+
+        .btn-verificar:disabled {
+            background: #aab0c0;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .btn-verificar.verificado {
+            background: #0d7a3e;
+        }
+
+        .feedback {
+            margin-top: 12px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            background: #f1f3f6;
+            border-left: 4px solid #6c757d;
+            font-size: 0.95rem;
+            display: none;
+            color: #1e2b3e;
+            line-height: 1.5;
+        }
+
+        .feedback.visible {
+            display: block;
+        }
+
+        .feedback.acertou {
+            border-left-color: #0d7a3e;
+            background: #eafaf0;
+        }
+
+        .feedback.errou {
+            border-left-color: #b22234;
+            background: #fce9e9;
+        }
+
+        .feedback .explicacao {
+            margin-top: 4px;
+            font-weight: 400;
+            color: #2c3e50;
+        }
+
+        .feedback .explicacao strong {
+            color: #0b1a33;
+        }
+
+        .status-icone {
+            font-size: 1.2rem;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 600px) {
+            #simulado {
+                padding: 16px;
+            }
+            .questao-item {
+                padding: 14px;
+            }
+            .sub-header {
+                flex-direction: column;
+                gap: 8px;
+                align-items: stretch;
+            }
+            .sub-header .stats {
+                justify-content: center;
+            }
+            .btn-reset-global {
+                text-align: center;
+            }
+            .opcao {
+                padding: 6px 12px;
+            }
+            .enunciado {
+                font-size: 0.98rem;
+            }
+        }
+
+        .progresso-bar {
+            width: 100%;
+            height: 6px;
+            background: #dde1e9;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .progresso-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0d7a3e, #1a8a4e);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .footer-legend {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #dde1e9;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: #4a5a7a;
+        }
+
+        .footer-legend span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-legend .dot {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+        }
+
+        .dot.verde {
+            background: #0d7a3e;
+        }
+        .dot.vermelho {
+            background: #b22234;
+        }
+        .dot.azul {
+            background: #1a2a4a;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="simulado">
+        <h1>
+            🛡️ Simulado – Defesa Civil
+            <small>20 questões</small>
+        </h1>
+
+        <div class="progresso-bar">
+            <div class="fill" id="progressFill"></div>
+        </div>
+
+        <div class="sub-header">
+            <span><strong>📋</strong> Baseado na Lei 18.519/2015 e doutrina de Defesa Civil</span>
+            <div class="stats">
+                <span id="contador-corretas">✅ Corretas: 0</span>
+                <span id="contador-incorretas">❌ Incorretas: 0</span>
+                <span id="contador-restantes">⏳ Restantes: 20</span>
+            </div>
+            <button class="btn-reset-global" onclick="resetarTudo()">⟳ Reiniciar</button>
+        </div>
+
+        <div id="questoesContainer"></div>
+
+        <div class="footer-legend">
+            <span><span class="dot verde"></span> Resposta correta</span>
+            <span><span class="dot vermelho"></span> Sua resposta errada</span>
+            <span><span class="dot azul"></span> Resposta selecionada (certa)</span>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // BANCO DE QUESTÕES – 20 MC baseadas no PDF de Defesa Civil
+        // ============================================================
+        const questoes = [{
+            enunciado: 'O conjunto de ações preventivas, de socorro, assistenciais e reconstrutivas destinadas a evitar ou minimizar os desastres, preservando a incolumidade da população, define o conceito de:',
+            opcoes: [
+                'Segurança Pública Repressiva.',
+                'Defesa Civil.',
+                'Policiamento Comunitário.',
+                'Intervenção Humanitária Federal.'
+            ],
+            correta: 1,
+            explicacao: 'Defesa Civil é exatamente o conjunto de ações preventivas, de socorro, assistenciais e reconstrutivas para evitar ou minimizar desastres, preservando a incolumidade da população.'
+        }, {
+            enunciado: 'Em uma situação de desastre em que há iminente risco de morte para os moradores de uma área colapsada, a equipe da PMPR pode realizar a evacuação compulsória dessas pessoas mesmo contra a vontade delas. Esse procedimento encontra amparo jurídico em qual princípio fundamental da Defesa Civil?',
+            opcoes: [
+                'Princípio da Universalidade.',
+                'Princípio da Participação Comunitária.',
+                'Princípio da Primazia do Interesse Público.',
+                'Princípio da Solidariedade Cooperativa.'
+            ],
+            correta: 2,
+            explicacao: 'O Princípio da Primazia do Interesse Público permite que o Estado atue em situações de risco iminente, sobrepondo o interesse coletivo ao individual, legitimando a evacuação compulsória.'
+        }, {
+            enunciado: 'A Lei Estadual nº 18.519/2015 é um marco jurídico fundamental para a segurança pública e proteção comunitária no Paraná. Esta legislação específica foi responsável por instituir o:',
+            opcoes: [
+                'Fundo de Modernização da Polícia Militar (FUNESBOM).',
+                'Código de Segurança contra Incêndio e Pânico do PR.',
+                'Sistema Estadual de Proteção e Defesa Civil (SIEDEC).',
+                'Plano Diretor de Desenvolvimento Tecnológico Urbano.'
+            ],
+            correta: 2,
+            explicacao: 'A Lei 18.519/2015 instituiu o Sistema Estadual de Proteção e Defesa Civil (SIEDEC) no Paraná, organizando a atuação estadual em proteção civil.'
+        }, {
+            enunciado: 'Durante uma enxurrada grave que isolou uma comunidade no interior do Paraná, um Soldado da PMPR determina a um civil que ceda temporariamente o uso de seu trator de grande porte para puxar uma viatura com uma família ilhada. Com base no ordenamento jurídico e no poder de polícia, esse mecanismo legal é denominado:',
+            opcoes: [
+                'Desapropriação Sumária de Emergência.',
+                'Requisição Administrativa.',
+                'Confisco Emergencial de Bens Civis.',
+                'Busca e Apreensão Sumária.'
+            ],
+            correta: 1,
+            explicacao: 'Requisição Administrativa é o mecanismo pelo qual o poder público pode utilizar bens particulares em situações de emergência, com posterior indenização, conforme previsto na legislação.'
+        }, {
+            enunciado: 'A estrutura de governança e articulação do Sistema de Defesa Civil no Brasil e no Paraná opera de forma integrada e em níveis de responsabilidade ascendentes. Assinale a alternativa que apresenta a correspondência correta das siglas para as esferas Municipal, Estadual e Nacional, respectivamente:',
+            opcoes: [
+                'COMPDEC, SIEDEC e SINPDEC.',
+                'NUDEC, CEPDEC e SESP.',
+                'CONSEG, SIEDEC e MIN.',
+                'COMPDEC, CEGERD e FORÇA NACIONAL.'
+            ],
+            correta: 0,
+            explicacao: 'COMPDEC (Municipal), SIEDEC (Estadual) e SINPDEC (Nacional) são as siglas corretas para os sistemas de Defesa Civil nas três esferas.'
+        }, {
+            enunciado: 'No âmbito municipal, o Prefeito é a autoridade máxima de Defesa Civil. Quando a rádio-patrulha da PMPR isola uma área urbana e necessita de suporte imediato para abertura de abrigos públicos e distribuição de lonas, deve articular-se diretamente com o órgão municipal denominado:',
+            opcoes: [
+                'FUNEPDEC.',
+                'NUDEC.',
+                'COMPDEC.',
+                'SIEDEC.'
+            ],
+            correta: 2,
+            explicacao: 'A Coordenadoria Municipal de Proteção e Defesa Civil (COMPDEC) é o órgão municipal responsável por operacionalizar as ações de Defesa Civil na cidade.'
+        }, {
+            enunciado: 'Um Soldado da PMPR está atuando na coordenação e escolta de caminhões carregados de kits de assistência humanitária (colchões, água potável e cestas básicas) destinados a um ginásio de esportes repleto de famílias desabrigadas por um vendaval. Em qual fase da Defesa Civil o militar está operando?',
+            opcoes: [
+                'Mitigação.',
+                'Preparação.',
+                'Resposta.',
+                'Recuperação.'
+            ],
+            correta: 2,
+            explicacao: 'A fase de Resposta compreende as ações imediatas após o desastre, incluindo o socorro, assistência humanitária e suprimento de necessidades básicas das vítimas.'
+        }, {
+            enunciado: 'A realização de Cursos de Formação de Praças, a confecção prévia de Planos de Contingência (Placon) pelas unidades da PMPR e a execução de exercícios simulados de evacuação junto à comunidade são ações classificadas dentro de qual fase do Ciclo de Gestão de Desastres?',
+            opcoes: [
+                'Prevenção.',
+                'Preparação.',
+                'Mitigação.',
+                'Recuperação.'
+            ],
+            correta: 1,
+            explicacao: 'A Preparação envolve treinamentos, planejamento (Placon) e simulações para capacitar a resposta a desastres, antes que eles ocorram.'
+        }, {
+            enunciado: 'Um evento adverso de origem meteorológica atingiu um município paranaense, destruindo por completo o prédio da prefeitura, hospitais locais e redes de energia. A administração municipal perdeu totalmente a capacidade de gerenciar ou responder à crise com seus recursos próprios, necessitando de intervenção massiva estadual. Essa situação configura um(a):',
+            opcoes: [
+                'Situação de Emergência (SE).',
+                'Estado de Calamidade Pública (ECP).',
+                'Sinistro Tecnológico Localizado.',
+                'Vulnerabilidade Climática Controlada.'
+            ],
+            correta: 1,
+            explicacao: 'Estado de Calamidade Pública (ECP) é decretado quando o desastre causa danos severos e a capacidade de resposta do município está comprometida, exigindo apoio estadual ou federal.'
+        }, {
+            enunciado: 'Durante o policiamento em uma área afetada por inundações severas na Região Metropolitana de Curitiba, o Soldado realiza o cadastramento de duas famílias. A Família "A" teve sua casa destruída e necessita de alojamento público. A Família "B" desocupou preventivamente a casa e mudou-se temporariamente para a residência de parentes. Tecnicamente, as famílias são classificadas como:',
+            opcoes: [
+                'Família A: Desalojada | Família B: Desabrigada.',
+                'Família A: Refugiada | Família B: Evacuada.',
+                'Família A: Desabrigada | Família B: Desalojada.',
+                'Família A: Desalojada | Família B: Desalojada.'
+            ],
+            correta: 2,
+            explicacao: 'Desabrigado = perdeu a moradia e necessita de abrigo público. Desalojado = precisou deixar a casa, mas tem para onde ir (parentes, amigos).'
+        }, {
+            enunciado: 'Ao se aproximar do local de um tombamento de caminhão-tanque em uma rodovia estadual, o Soldado da PMPR utiliza o binóculo da viatura e identifica uma placa alaranjada afixada na lateral do veículo. Na parte inferior dessa placa, constam 4 dígitos numéricos (Ex: 1203). Essa numeração específica destina-se a identificar:',
+            opcoes: [
+                'O número de telefone de emergência da transportadora da carga.',
+                'O código de risco e reatividade química da substância.',
+                'O número da ONU que identifica o produto químico exato.',
+                'O peso bruto total em toneladas transportado pelo veículo.'
+            ],
+            correta: 2,
+            explicacao: 'O número de 4 dígitos na placa alaranjada é o Número ONU, que identifica internacionalmente o produto químico perigoso transportado.'
+        }, {
+            enunciado: 'As substâncias químicas perigosas transportadas pelas rodovias do Paraná são divididas internacionalmente em 9 classes de risco pela ONU. Um caminhão que exibe um Rótulo de Risco (losango colorido) contendo o símbolo de uma "chama" sobre fundo vermelho e o número 3 abaixo, está transportando material da:',
+            opcoes: [
+                'Classe 1: Explosivos.',
+                'Classe 2: Gases Tóxicos.',
+                'Classe 3: Líquidos Inflamáveis.',
+                'Classe 8: Substâncias Corrosivas.'
+            ],
+            correta: 2,
+            explicacao: 'O losango vermelho com chama e número 3 identifica a Classe 3 – Líquidos Inflamáveis, segundo a classificação da ONU.'
+        }, {
+            enunciado: 'De acordo com as diretrizes de segurança institucional e o Procedimento Operacional Padrão (POP 100.36) da PMPR para ocorrências envolvendo sinistros com produtos perigosos, a viatura policial deve se aproximar da cena observando rigidamente quais critérios de posicionamento?',
+            opcoes: [
+                'Contra o vento (Downwind) e em nível mais baixo do terreno.',
+                'A favor do vento (de costas em relação ao vento) e em nível mais alto do terreno.',
+                'Contra o vento (Downwind) e em nível mais alto do terreno (Uphill).',
+                'A favor do vento e em nível mais baixo do terreno (Downhill).'
+            ],
+            correta: 1,
+            explicacao: 'O POP 100.36 orienta posicionar a viatura a favor do vento (para não ser atingido por gases) e em nível mais alto do terreno (para evitar escoamento de produtos).'
+        }, {
+            enunciado: 'O documento formal, elaborado previamente nos municípios do Paraná, que estabelece detalhadamente as responsabilidades, os recursos disponíveis, as rotas de fuga e os procedimentos de resposta para um cenário específico de desastre projetado é o:',
+            opcoes: [
+                'Formulário de Informação sobre Desastres (FIDE).',
+                'Relatório de Impacto Ambiental (RIMA).',
+                'Plano de Contingência (Placon).',
+                'Boletim de Ocorrência Unificado (BOU).'
+            ],
+            correta: 2,
+            explicacao: 'O Plano de Contingência (Placon) é o documento prévio que detalha a resposta para cenários específicos de desastre, com responsabilidades e recursos.'
+        }, {
+            enunciado: 'No Paraná, a estrutura que opera ininterruptamente (24 horas) na sede da Defesa Civil Estadual, realizando a integração de dados com o Simepar para o processamento de riscos ambientais e coordenação estratégica do envio de alertas à população, é o:',
+            opcoes: [
+                'Centro Estadual de Gerenciamento de Riscos e Desastres (CEGERD).',
+                'Sistema de Informações Criminais Integradas (SESP).',
+                'Coordenadoria Municipal de Proteção Ambiental (COMPDEC).',
+                'Gabinete de Gestão Integrada de Fronteiras (GGI-F).'
+            ],
+            correta: 0,
+            explicacao: 'O CEGERD é o centro de monitoramento 24h da Defesa Civil Estadual, integrado ao Simepar, responsável por alertas e gestão de riscos.'
+        }, {
+            enunciado: 'Qual é o canal oficial de envio de alertas precoces por mensagem de texto (SMS) utilizado pela Defesa Civil do Estado do Paraná para avisar a população sobre o risco iminente de eventos climáticos extremos por meio do cadastro do CEP?',
+            opcoes: [
+                'Número 190.',
+                'Número 193.',
+                'Número 40199.',
+                'Número 27700.'
+            ],
+            correta: 2,
+            explicacao: 'O número 40199 é o canal oficial da Defesa Civil do Paraná para envio de alertas por SMS, mediante cadastro do CEP.'
+        }, {
+            enunciado: 'O Programa Brigadas Escolares, instituído no Estado do Paraná em cooperação multissetorial, possui uma importante função preventiva na comunidade. Seu objetivo primordial consiste em:',
+            opcoes: [
+                'Formar alunos armados para realizar a segurança interna das escolas.',
+                'Capacitar a comunidade escolar em planos de abandono, primeiros socorros e combate a princípios de incêndio.',
+                'Realizar vistorias de engenharia civil substitutivas às do Corpo de Bombeiros.',
+                'Isolar de forma definitiva os colégios do contato com as forças policiais.'
+            ],
+            correta: 1,
+            explicacao: 'O Programa Brigadas Escolares capacita a comunidade escolar em procedimentos de emergência: planos de abandono, primeiros socorros e combate a princípios de incêndio.'
+        }, {
+            enunciado: 'Ao atender uma ocorrência real de destelhamento de um colégio estadual provocado por forte tempestade, qual deve ser a conduta prioritária e imediata do primeiro prefixo da PMPR no local para apoiar os brigadistas e socorristas?',
+            opcoes: [
+                'Iniciar o preenchimento estatístico dos dados do relatório FIDE antes do isolamento.',
+                'Isolar rigorosamente o perímetro externo da escola, conter o pânico e garantir o livre acesso das equipes de resgate médico.',
+                'Invadir as estruturas colapsadas sem Equipamento de Proteção Individual para buscar materiais didáticos.',
+                'Aguardar a chegada do Prefeito Municipal para dar início a qualquer intervenção de trânsito.'
+            ],
+            correta: 1,
+            explicacao: 'A prioridade é isolar o perímetro, conter o pânico e garantir acesso às equipes de resgate. A segurança de vidas e o suporte aos socorristas vêm em primeiro lugar.'
+        }, {
+            enunciado: 'No âmbito da execução das ações de socorro e assistência humanitária na ponta de linha de um município paranaense afetado por desastre, com qual órgão local a equipe de rádio-patrulha da PMPR deve se articular diretamente para coordenar a abertura de abrigos públicos e entrega de lonas?',
+            opcoes: [
+                'Com a Coordenadoria Nacional (SINPDEC) em Brasília.',
+                'Com a Coordenadoria Municipal de Proteção e Defesa Civil (COMPDEC).',
+                'Diretamente com os analistas de plantão do CEGERD em Curitiba.',
+                'Com o Tribunal de Justiça do Estado do Paraná.'
+            ],
+            correta: 1,
+            explicacao: 'A articulação local deve ser feita com a COMPDEC, que é o órgão municipal responsável pela abertura de abrigos e distribuição de suprimentos.'
+        }, {
+            enunciado: 'No âmbito do Sistema Estadual de Defesa Civil do Paraná, a Coordenadoria Estadual (CEPDEC/PR) exerce uma função estratégica fundamental. A sua principal atribuição em cenários de desastres de grande magnitude consiste em:',
+            opcoes: [
+                'Substituir legalmente o Governador do Estado na administração financeira geral de todas as secretarias civis.',
+                'Centralizar o comando operacional no estado, articulando o suporte logístico emergencial e gerenciando os grandes alertas direcionados às Unidades da PMPR.',
+                'Extinguir os planos de contingência municipais (Placons) para centralizar os gastos em Curitiba.',
+                'Assumir o policiamento ostensivo repressivo ordinário de trânsito em substituição às rádio-patrulhas locais.'
+            ],
+            correta: 1,
+            explicacao: 'A CEPDEC/PR centraliza o comando operacional estadual, articulando suporte logístico e gerenciando alertas para as unidades da PMPR em desastres de grande magnitude.'
+        }];
+
+        // ============================================================
+        // RENDERIZAÇÃO E LÓGICA
+        // ============================================================
+
+        function renderizarTodas() {
+            const container = document.getElementById('questoesContainer');
+            container.innerHTML = '';
+
+            questoes.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.className = 'questao-item';
+                div.id = `questao-${index}`;
+
+                let html = `
+                    <div class="enunciado">
+                        <span class="questao-tipo">Múltipla Escolha</span>
+                        <span class="num">${index + 1}.</span> ${q.enunciado}
+                    </div>
+                    <div class="opcoes" id="opcoes-${index}">
+                `;
+
+                const letras = ['A', 'B', 'C', 'D'];
+                q.opcoes.forEach((op, opIdx) => {
+                    html += `
+                        <div class="opcao" id="opcao-${index}-${opIdx}">
+                            <input type="radio" name="q_${index}" value="${opIdx}" id="radio-${index}-${opIdx}">
+                            <label for="radio-${index}-${opIdx}">
+                                <span class="letra">${letras[opIdx]}.</span> ${op}
+                            </label>
+                        </div>
+                    `;
+                });
+
+                html += `
+                    </div>
+                    <div class="botoes-verificar">
+                        <button class="btn-verificar" id="btn-${index}" onclick="verificarQuestao(${index})">Verificar</button>
+                        <span id="status-${index}" style="font-size:0.9rem;font-weight:500;"></span>
+                    </div>
+                    <div class="feedback" id="feedback-${index}">
+                        <span class="status-icone"></span>
+                        <span class="explicacao"></span>
+                    </div>
+                `;
+
+                div.innerHTML = html;
+                container.appendChild(div);
+            });
+
+            atualizarContadores();
+        }
+
+        function verificarQuestao(index) {
+            const q = questoes[index];
+            const radios = document.querySelectorAll(`input[name="q_${index}"]`);
+            let selecionado = null;
+
+            for (let r of radios) {
+                if (r.checked) {
+                    selecionado = parseInt(r.value);
+                    break;
+                }
+            }
+
+            if (selecionado === null) {
+                alert('Por favor, selecione uma opção antes de verificar.');
+                return;
+            }
+
+            const isCorreta = (selecionado === q.correta);
+            const btn = document.getElementById(`btn-${index}`);
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            const statusSpan = document.getElementById(`status-${index}`);
+            const questaoDiv = document.getElementById(`questao-${index}`);
+
+            // Desabilitar rádios
+            for (let r of radios) r.disabled = true;
+
+            const opcaoElements = document.querySelectorAll(`#opcoes-${index} .opcao`);
+            const letras = ['A', 'B', 'C', 'D'];
+
+            opcaoElements.forEach((el, opIdx) => {
+                el.classList.add('disabled');
+                if (opIdx === q.correta) {
+                    el.classList.add('resposta-correta');
+                }
+                if (opIdx === selecionado) {
+                    if (isCorreta) {
+                        el.classList.add('selecionada-certa');
+                    } else {
+                        el.classList.add('selecionada-errada');
+                        el.classList.add('resposta-errada');
+                    }
+                }
+            });
+
+            feedbackDiv.classList.add('visible');
+            const icon = feedbackDiv.querySelector('.status-icone');
+            const explicacao = feedbackDiv.querySelector('.explicacao');
+
+            if (isCorreta) {
+                feedbackDiv.className = 'feedback visible acertou';
+                icon.textContent = '✅';
+                explicacao.innerHTML = `<strong>Correta!</strong> ${q.explicacao}`;
+                statusSpan.textContent = '✓ Correta';
+                statusSpan.style.color = '#0d7a3e';
+                questaoDiv.classList.add('correta');
+            } else {
+                feedbackDiv.className = 'feedback visible errou';
+                icon.textContent = '❌';
+                const corretaStr = q.opcoes[q.correta];
+                explicacao.innerHTML =
+                    `<strong>Incorreta.</strong> A alternativa correta é <strong>${letras[q.correta]}</strong>: "${corretaStr}".<br>${q.explicacao}`;
+                statusSpan.textContent = '✗ Incorreta';
+                statusSpan.style.color = '#b22234';
+                questaoDiv.classList.add('incorreta');
+            }
+
+            btn.textContent = 'Verificado ✓';
+            btn.disabled = true;
+            btn.classList.add('verificado');
+
+            atualizarContadores();
+        }
+
+        function atualizarContadores() {
+            let corretas = 0,
+                incorretas = 0;
+            let respondidas = 0;
+
+            for (let i = 0; i < questoes.length; i++) {
+                const btn = document.getElementById(`btn-${i}`);
+                if (btn && btn.disabled) {
+                    respondidas++;
+                    const statusSpan = document.getElementById(`status-${i}`);
+                    if (statusSpan && statusSpan.textContent.includes('Correta')) {
+                        corretas++;
+                    } else if (statusSpan && statusSpan.textContent.includes('Incorreta')) {
+                        incorretas++;
+                    }
+                }
+            }
+
+            const restantes = questoes.length - respondidas;
+            document.getElementById('contador-corretas').textContent = `✅ Corretas: ${corretas}`;
+            document.getElementById('contador-incorretas').textContent = `❌ Incorretas: ${incorretas}`;
+            document.getElementById('contador-restantes').textContent = `⏳ Restantes: ${restantes}`;
+
+            const progresso = (respondidas / questoes.length) * 100;
+            document.getElementById('progressFill').style.width = `${progresso}%`;
+        }
+
+        function resetarTudo() {
+            for (let i = 0; i < questoes.length; i++) {
+                const radios = document.querySelectorAll(`input[name="q_${i}"]`);
+                for (let r of radios) {
+                    r.disabled = false;
+                    r.checked = false;
+                }
+
+                const btn = document.getElementById(`btn-${i}`);
+                if (btn) {
+                    btn.textContent = 'Verificar';
+                    btn.disabled = false;
+                    btn.classList.remove('verificado');
+                }
+
+                const feedbackDiv = document.getElementById(`feedback-${i}`);
+                if (feedbackDiv) {
+                    feedbackDiv.className = 'feedback';
+                    feedbackDiv.querySelector('.status-icone').textContent = '';
+                    feedbackDiv.querySelector('.explicacao').innerHTML = '';
+                }
+
+                const statusSpan = document.getElementById(`status-${i}`);
+                if (statusSpan) {
+                    statusSpan.textContent = '';
+                    statusSpan.style.color = '';
+                }
+
+                const questaoDiv = document.getElementById(`questao-${i}`);
+                if (questaoDiv) {
+                    questaoDiv.classList.remove('correta', 'incorreta');
+                }
+
+                const opcoesDiv = document.getElementById(`opcoes-${i}`);
+                if (opcoesDiv) {
+                    opcoesDiv.querySelectorAll('.opcao').forEach(el => {
+                        el.className = 'opcao';
+                    });
+                }
+            }
+
+            atualizarContadores();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Inicializar
+        renderizarTodas();
+    </script>
+
+</body>
+</html>
